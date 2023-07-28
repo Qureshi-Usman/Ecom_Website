@@ -1,0 +1,204 @@
+{% load static %}
+
+<header>
+  <!-- header left mobie -->
+  <div class="header-mobile d-md-none">
+    <div
+      class="mobile hidden-md-up text-xs-center d-flex align-items-center justify-content-around"
+    >
+      <!-- menu left -->
+      <div id="mobile_mainmenu" class="item-mobile-top">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+      </div>
+
+      <!-- logo -->
+      <div class="mobile-logo">
+        <a href="{% url 'home' %}">
+          <img
+            class="logo-mobile img-fluid"
+            src="{% static 'images/mylogo.png' %}"
+            alt="E-store"
+          />
+        </a>
+      </div>
+
+      <!-- menu right -->
+      <div class="mobile-menutop" data-target="#mobile-pagemenu">
+        <i class="zmdi zmdi-more"></i>
+      </div>
+    </div>
+
+    <!-- search -->
+    <div id="mobile_search" class="d-flex">
+      <div id="mobile_search_content">
+        <form method="get" action="{% url 'search' %}">
+          <input type="text" name="keyword" value="" placeholder="Search" />
+          <button type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+      </div>
+      <div class="desktop_cart">
+        <div class="blockcart block-cart cart-preview tiva-toggle">
+          <div class="header-cart tiva-toggle-btn">
+            <span class="cart-products-count">{{cart_count}}</span>
+            <a href="{% url 'cart' %}"<i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+          </div>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- header desktop -->
+  <div class="header-top d-xs-none">
+    <div class="container">
+      <div class="row">
+        <!-- logo -->
+        <div class="col-sm-2 col-md-2 d-flex align-items-center">
+          <div id="logo">
+            <a href="{% url 'home' %}">
+              <img
+                class="img-fluid"
+                src="{% static 'images/mylogo.png' %}"
+                alt="logo"
+              />
+            </a>
+          </div>
+        </div>
+
+        <!-- menu -->
+        <div
+          class="main-menu col-sm-4 col-md-5 align-items-center justify-content-center navbar-expand-md"
+        >
+          <div class="menu navbar collapse navbar-collapse">
+            <ul class="menu-top navbar-nav">
+              <li class="nav-link">
+                <a href="{% url 'home' %}" class="parent">Home</a>
+              </li>
+              <li>
+                <a class="parent">All Categories</a>
+                <div class="dropdown-menu drop-tab">
+                  <ul>
+                    <li class="item container group">
+                      <div class="dropdown-menu dropdown-tab">
+                        <ul>
+                          <li class="item col-md-4 float-left">
+                            <span class="menu-title">All Categories</span>
+                            <div class="menu-content">
+                              <ul class="col">
+                                {% for category in links %}
+                                <li>
+                                  <a href="{{category.get_url}}"
+                                    >{{category.category_name}}</a
+                                  >
+                                </li>
+                                {%endfor%}
+                              </ul>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <a href="{% url 'store'%}" class="parent">Store</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- search-->
+        <div
+          id="search_widget"
+          class="col-sm-6 col-md-5 align-items-center justify-content-end d-flex"
+        >
+          <form method="GET" action="{% url 'search' %}">
+            <input
+              type="text"
+              name="keyword"
+              value=""
+              placeholder="Search ..."
+              class="ui-autocomplete-input"
+              autocomplete="off"
+            />
+            <button type="submit">
+              <i class="fa fa-search"></i>
+            </button>
+          </form>
+
+          <!-- acount  -->
+          <div id="block_myaccount_infos" class="hidden-sm-down dropdown">
+            <div class="myaccount-title">
+              <a href="#acount" data-toggle="collapse" class="acount">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <span>Account</span>
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+              </a>
+            </div>
+            <div id="acount" class="collapse">
+              <div class="account-list-content">
+                {% if user.id is not None %}
+                <div>
+                    <i class="fa fa-cog"></i>
+                    <span>Welcome, {{user.first_name}}</span>                    
+                </div>
+                <div>
+                    <a
+                      class="register"
+                      href="{% url 'dashboard' %}"
+                      rel="nofollow"
+                    >
+                      <i class="fa fa-user"></i>
+                      <span>Dashboard</span>
+                    </a>
+                  </div>
+                <div>
+                  <a class="register" href="{% url 'logout' %}" rel="nofollow">
+                    <i class="fa fa-user"></i>
+                    <span>Logout</span>
+                  </a>
+                </div>                
+                {%else%}
+                <div>
+                  <a
+                    class="login"
+                    href="{% url 'login' %}"
+                    rel="nofollow"
+                    title="Log in to your customer account"
+                  >
+                    <i class="fa fa-sign-in"></i>
+                    <span>Sign in</span>
+                  </a>
+                </div>
+                <div>
+                  <a
+                    class="register"
+                    href="{% url 'register' %}"
+                    rel="nofollow"
+                    title="Register Account"
+                  >
+                    <i class="fa fa-user"></i>
+                    <span>Register Account</span>
+                  </a>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="desktop_cart">
+            <div class="blockcart block-cart cart-preview tiva-toggle">
+              <div class="header-cart tiva-toggle-btn">
+                <span class="cart-products-count">{{cart_count}}</span>
+                <a href="{% url 'cart' %}"><i class="fa fa-shopping-cart mycart" aria-hidden="true"></i></a>
+              </div>            
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
